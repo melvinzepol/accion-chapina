@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #1a0810;
+    color: #f7e9ba;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(54, 11, 18, 0.5);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(45, 90, 39, 0.5);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(91, 189, 56, 0.6);
+  }
+}
+
+@layer components {
+  /* ===== Glass Cards ===== */
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300;
+  }
+
+  .glass-card-hover:hover {
+    @apply bg-white/10 border-white/20;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* ===== Buttons ===== */
+  .btn-primary {
+    @apply px-6 py-3 bg-gradient-to-r from-fifa to-fifa-600 text-white font-semibold rounded-xl
+           transition-all duration-300 hover:shadow-lg hover:shadow-fifa/30 hover:-translate-y-0.5
+           active:translate-y-0 active:shadow-md disabled:opacity-50 disabled:cursor-not-allowed
+           disabled:hover:translate-y-0 disabled:hover:shadow-none;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 bg-white/10 text-white font-semibold rounded-xl border border-white/20
+           transition-all duration-300 hover:bg-white/20 hover:border-white/30
+           active:bg-white/15;
+  }
+
+  .btn-dorado {
+    @apply px-6 py-3 bg-gradient-to-r from-dorado to-dorado-600 text-noche font-bold rounded-xl
+           transition-all duration-300 hover:shadow-lg hover:shadow-dorado/30 hover:-translate-y-0.5
+           active:translate-y-0;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+
+  /* ===== Inputs ===== */
+  .input-field {
+    @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white
+           placeholder:text-white/30 focus:outline-none focus:border-fifa/50 focus:bg-white/10
+           focus:ring-2 focus:ring-fifa/20 transition-all duration-300;
+  }
+
+  .input-score {
+    @apply w-16 h-14 text-center text-2xl font-bold bg-crema border-2 border-fifa
+           rounded-lg text-fifa focus:outline-none focus:border-dorado focus:bg-white
+           focus:ring-2 focus:ring-dorado/20 transition-all duration-300;
+  }
+
+  .input-score-locked {
+    @apply w-16 h-14 text-center text-2xl font-bold bg-crema/80 border-2 border-fifa/50
+           rounded-lg text-fifa/60 cursor-not-allowed;
+  }
+
+  /* ===== Badges ===== */
+  .badge-exacto {
+    @apply inline-flex items-center gap-1 px-3 py-1 bg-exito/20 text-exito
+           font-bold text-sm rounded-full border border-exito/30;
+  }
+
+  .badge-resultado {
+    @apply inline-flex items-center gap-1 px-3 py-1 bg-parcial/20 text-parcial
+           font-bold text-sm rounded-full border border-parcial/30;
+  }
+
+  .badge-ninguno {
+    @apply inline-flex items-center gap-1 px-3 py-1 bg-error-pts/20 text-error-pts
+           font-bold text-sm rounded-full border border-error-pts/30;
+  }
+
+  .badge-fase-abierta {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 bg-exito/15 text-exito
+           text-xs font-semibold rounded-full border border-exito/30;
+  }
+
+  .badge-fase-cerrada {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 bg-error-pts/15 text-error-pts
+           text-xs font-semibold rounded-full border border-error-pts/30;
+  }
+
+  .badge-fase-countdown {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 bg-dorado/15 text-dorado
+           text-xs font-semibold rounded-full border border-dorado/30 animate-pulse-red;
+  }
+
+  /* ===== Navigation ===== */
+  .nav-item {
+    @apply flex flex-col items-center gap-1 py-2 px-4 text-white/40 transition-all duration-300;
+  }
+
+  .nav-item.active {
+    @apply text-fifa;
+  }
+
+  .nav-item:hover {
+    @apply text-white/70;
+  }
+
+  /* ===== Tab System ===== */
+  .tab-item {
+    @apply px-4 py-2.5 text-sm font-medium text-white/50 border-b-2 border-transparent
+           transition-all duration-300 cursor-pointer whitespace-nowrap;
+  }
+
+  .tab-item:hover {
+    @apply text-white/70 border-white/20;
+  }
+
+  .tab-item.active {
+    @apply text-dorado border-dorado;
+  }
+
+  /* ===== Section headers ===== */
+  .section-title {
+    @apply font-display text-2xl font-bold text-white;
+  }
+
+  .section-subtitle {
+    @apply text-white/50 text-sm;
+  }
+
+  /* ===== Podium ===== */
+  .podium-gold {
+    background: linear-gradient(135deg, #f2b410 0%, #f9c74f 50%, #f2b410 100%);
+    box-shadow: 0 0 30px rgba(242, 180, 16, 0.3);
+  }
+
+  .podium-silver {
+    background: linear-gradient(135deg, #b8b8b8 0%, #e0e0e0 50%, #b8b8b8 100%);
+    box-shadow: 0 0 20px rgba(184, 184, 184, 0.2);
+  }
+
+  .podium-bronze {
+    background: linear-gradient(135deg, #cd7f32 0%, #e8a862 50%, #cd7f32 100%);
+    box-shadow: 0 0 20px rgba(205, 127, 50, 0.2);
+  }
+
+  /* ===== World Cup Gradient Background ===== */
+  .bg-mundial {
+    background: linear-gradient(135deg, #1a0810 0%, #360b12 40%, #2a1018 100%);
+  }
+
+  .bg-mundial-accent {
+    background: linear-gradient(180deg, 
+      rgba(45, 90, 39, 0.08) 0%, 
+      transparent 40%,
+      transparent 60%,
+      rgba(242, 180, 16, 0.05) 100%
+    );
+  }
+
+  /* ===== Loading ===== */
+  .loading-shimmer {
+    @apply bg-white/5 rounded-xl overflow-hidden relative;
+  }
+
+  .loading-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* ===== Match card ===== */
+  .match-card {
+    @apply glass-card p-4 sm:p-5 transition-all duration-300 border-l-4 border-l-dorado border-t border-r border-b border-white/10;
+  }
+
+  .match-card:hover {
+    @apply bg-white/10 border-white/15 border-l-dorado-400;
+  }
+
+  .match-card-finalizado {
+    @apply glass-card p-4 sm:p-5 border-l-4 border-l-dorado-600 border-white/5;
+  }
+}
+
+@layer utilities {
+  .text-gradient-fifa {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-fifa to-dorado;
+  }
+
+  .text-gradient-dorado {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-dorado-400 to-dorado-600;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

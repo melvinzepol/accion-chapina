@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Función helper para verificar admin
+    function isAdmin() {
+      return get(/databases/$(database)/documents/participantes/$(request.auth.uid)).data.rol == 'admin';
+    }
+    
+    // Participantes: lectura propia o admin, escritura admin o creación propia
+    match /participantes/{uid} {
+      allow read: if request.auth != null && (request.auth.uid == uid || isAdmin());
+      allow create: if request.auth != null && request.auth.uid == uid;
+      allow update, delete: if request.auth != null && isAdmin();
+    }
+    
+    // Partidos: lectura pública autenticada, escritura solo admin
+    match /partidos/{partidoId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && isAdmin();
+    }
+    
+    // Fases: lectura pública autenticada, escritura solo admin
+    match /fases/{faseId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && isAdmin();
+    }
+    
+    // Pronósticos: el participante puede leer/escribir los suyos, admin todo
+    match /pronosticos/{pronosticoId} {
+      // Lectura: dueño o admin
+      allow read: if request.auth != null 
+        && (resource.data.participanteUid == request.auth.uid || isAdmin());
+      
+      // Escritura del participante: solo si la fase está abierta
+      allow create, update: if request.auth != null 
+        && request.resource.data.participanteUid == request.auth.uid
+        && get(/databases/$(database)/documents/fases/$(request.resource.data.fase)).data.estado == 'abierta';
+      
+      // Admin puede escribir siempre (para recalcular puntos)
+      allow write: if request.auth != null && isAdmin();
+    }
+    
+    // Rankings: lectura pública autenticada, escritura solo admin
+    match /rankings/{rankingId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && isAdmin();
+    }
+    
+    // Ganadores: lectura pública autenticada, escritura solo admin
+    match /ganadores/{ganadorId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && isAdmin();
+    }
+  }
+}
